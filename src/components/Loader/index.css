@@ -1,0 +1,47 @@
+.load-container {
+  top: 50%;
+  left: 50%;
+  display: flex;
+  transform: translate(-50%, -50%);
+  position: absolute;
+} 
+
+.load-dot {
+  margin: 2.5px;
+  width: 15px;
+  height: 15px;
+  background-color: #4a90e2;
+  border-radius: 50%;
+  animation-duration: 0.5s;
+  animation-iteration-count: infinite;
+}
+
+.dot-one {
+  animation-name: dot-one;
+}
+
+@keyframes dot-one {
+  30% {
+     transform: translateY(-50%);
+  }
+}
+
+.dot-two {
+  animation-name: dot-two;
+}
+
+@keyframes dot-two {
+  50% {
+     transform: translateY(-50%);
+  }
+}
+
+.dot-three {
+  animation-name: dot-three;
+}
+
+@keyframes dot-three {
+  70% {
+     transform: translateY(-50%);
+  }
+}
