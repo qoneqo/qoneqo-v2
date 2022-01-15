@@ -1,7 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import './index.scss';
+import './index.css';
+import Web from './Web';
+import Home from './pages/web/Home';
 import App from './App';
 import Dashboard from './pages/app/Dashboard';
 import Users from './pages/app/Users';
@@ -12,7 +14,10 @@ ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<App />}>
+        <Route path="/" element={<Web />}>
+          <Route index element={<Home />} />
+        </Route>
+        <Route path="/dashboard" element={<App />}>
           <Route index element={<Dashboard />} />
           <Route path="users" element={<Users />} />
         </Route>

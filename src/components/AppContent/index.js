@@ -1,7 +1,7 @@
 import React from 'react'
 import {Outlet} from 'react-router-dom';
 
-const Content = () => {
+const AppContent = () => {
   return (
     <>
       <main className="p-5 min-h-screen">
@@ -11,4 +11,4 @@ const Content = () => {
   )
 }
 
-export default Content
+export default AppContent

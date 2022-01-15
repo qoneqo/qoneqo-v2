@@ -1,39 +1,36 @@
 import React, {useState, useEffect} from 'react'
-import Highcharts from 'highcharts';
-import HighchartsReact from 'highcharts-react-official';
+import Highcharts from 'highcharts/highstock'
+import HighchartsReact from 'highcharts-react-official'
 import Loader from '../Loader';
-import EmptyBar from '../../assets/images/EmptyBar.svg';
+import EmptyColumn from '../../assets/images/EmptyColumn.svg';
 
 let mounted = false;
 let chartOptions = {
   chart: {
-    type: 'bar'
+    type: 'column'
   },
   title: {
       text: ''
   },
   subtitle: {
-      // text: 'Source: <a href="https://en.wikipedia.org/wiki/World_population">Wikipedia.org</a>'
+      // text: 'Source: WorldClimate.com'
+  },
+  legend: {
+    enabled: false,
   },
   xAxis: {
     categories: [],
-    title: {
-        text: false,
-    },
-    max: 4,
+    crosshair: true,
+    max: 9,
     scrollbar: {
       enabled: true
     },
   },
   yAxis: {
-      min: 0,
-      title: {
-          text: false,
-          // align: 'high'
-      },
-      labels: {
-          overflow: 'justify'
-      }
+    min: 0,
+    title: {
+      text: false,
+    },
   },
   tooltip: {
     formatter: function () {          
@@ -52,35 +49,21 @@ let chartOptions = {
     useHTML: true,
   },
   plotOptions: {
-      bar: {
-          dataLabels: {
-              enabled: true
-          }
+      column: {
+          pointPadding: 0.2,
+          borderWidth: 0
       }
-  },
-  legend: {
-    enabled: false,
-    layout: 'vertical',
-    align: 'right',
-    verticalAlign: 'top',
-    x: -40,
-    y: 80,
-    floating: true,
-    borderWidth: 1,
-    backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF',
-    shadow: true
-  },
-  credits: {
-      enabled: false
   },
   series: [{
       name: '',
       data: []
-  },],
+
+  }],
   loading: {
     buffer: true,
     flag: true,
   },
+  credits: false,
 }
 
 const ChartContainer = ({children}) => (
@@ -93,16 +76,13 @@ const ChartContainer = ({children}) => (
   </>
 )
 
-const BarChart = (props) => {
-
-  const {data, categories, options} = props;
+const ColumnChart = (props) => {
+  const { data, categories, options } = props;
   const [state, setState] = useState(chartOptions);
-  
   useEffect(() => {
     if (typeof data === 'undefined') { return; }
     let max = (options.xAxis && options.xAxis.max) ? options.xAxis.max : chartOptions.xAxis.max;
     let enabled = ((options.xAxis && options.xAxis.scrollbar && options.xAxis.scrollbar.enabled) ? options.xAxis.scrollbar.enabled : chartOptions.xAxis.scrollbar.enabled);
-
     setState({
       ...state,
       ...options,
@@ -145,23 +125,23 @@ const BarChart = (props) => {
   
   return (
     <>
-      {
-        (props.data === undefined || props.loading || state.loading.buffer === true) ? 
+      { 
+        (props.data === undefined || props.loading || state.loading.buffer === true) ?
           <ChartContainer>
             <Loader />
           </ChartContainer>
-        : (state.series[0].data && state.series[0].data.length) ?
+        : (state.series[0].data.length) ?
           <HighchartsReact highcharts={Highcharts} options={state} /> 
-        :
+        : 
           <ChartContainer>
-            <img src={EmptyBar} alt="Empty Data" />
+            <img src={EmptyColumn} alt="Empty Data" />
           </ChartContainer>
-      }     
+      }      
     </>
   )
 }
 
-BarChart.defaultProps = {
+ColumnChart.defaultProps = {
   options: {},
 };
-export default BarChart
+export default React.memo(ColumnChart)

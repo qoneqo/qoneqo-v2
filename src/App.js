@@ -1,20 +1,20 @@
 import React from 'react';
-import './app.scss';
-import Header from './components/Header';
-import Sidebar from './components/Sidebar';
-import Content from './components/Content';
-import Footer from './components/Footer';
+import './app.css';
+import AppHeader from './components/AppHeader';
+import AppSidebar from './components/AppSidebar';
+import AppContent from './components/AppContent';
+import AppFooter from './components/AppFooter';
 
 const App = () => {
   return (
     <>
       <div className="App">
-        <div className="flex">
-          <Sidebar />
-          <div className="w-full">
-            <Header />
-            <Content />
-            <Footer />
+        <div className="flex w-full">
+          <AppSidebar className="flex-none" />
+          <div className="w-full flex-auto">
+            <AppHeader />
+            <AppContent />
+            <AppFooter />
           </div>
         </div>
       </div>
