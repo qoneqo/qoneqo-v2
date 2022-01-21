@@ -3,10 +3,10 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './index.css';
 import Web from './Web';
-import Home from './pages/web/Home';
+import Home from './views/web/Home';
 import App from './App';
-import Dashboard from './pages/app/Dashboard';
-import Users from './pages/app/Users';
+import Dashboard from './views/app/Dashboard';
+import Users from './views/app/Users';
 
 // import reportWebVitals from './reportWebVitals';
 
