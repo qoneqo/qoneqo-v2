@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef } from 'react';
 import {Link} from 'react-router-dom';
 import { AiOutlineSearch, AiOutlineMore, AiOutlineSetting, AiOutlineLogout } from 'react-icons/ai';
 import dp from './../../assets/images/user.jpg';
