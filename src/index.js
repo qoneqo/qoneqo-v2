@@ -1,33 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Index from './views';
 import './index.css';
-import Web from './Web';
-import Home from './views/web/Home';
-import Articles from './views/web/Articles';
-import Login from './views/web/Login';
-import App from './App';
-import Dashboard from './views/app/Dashboard';
-import Users from './views/app/Users';
 
 // import reportWebVitals from './reportWebVitals';
 
-
 ReactDOM.render(
   <React.StrictMode>
-  <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Web />}>
-          <Route index element={<Home />} />
-          <Route path="articles" element={<Articles />} />
-          <Route path="login" element={<Login />} />
-        </Route>
-        <Route path="/dashboard" element={<App />}>
-          <Route index element={<Dashboard />} />
-          <Route path="users" element={<Users />} />
-        </Route>
-      </Routes>
-  </BrowserRouter>
+    <Index />
   </React.StrictMode>,
   document.getElementById('root')
 );

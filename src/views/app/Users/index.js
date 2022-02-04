@@ -1,4 +1,5 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import Title from '../../../components/Title';
 import Section from '../../../components/Section';
 import Card from '../../../components/Card';
@@ -91,6 +92,13 @@ const dataTable = {
 };
 
 const Users = () => {
+  useEffect(() => {
+    axios.get('http://localhost:9999/users')
+    .then(({data}) => {
+      console.log(data);
+    })
+    .catch(() => {})
+  }, [])
   return (
     <>
       <Title>Users</Title>

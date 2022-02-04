@@ -1,28 +1,31 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import Form from '../../../components/Form';
 import { useNavigate } from 'react-router';
+import Context from '../../Context';
 
 const Login = () => {
+  const { setContext } = useContext(Context);
   const [state, setState] = useState({
     identifier: '',
     password: '',
   });
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   const handleLogin = (e) => {
     e.preventDefault();
-    navigate('/dashboard');
-  };
-
-  useEffect(() => {
     axios
-      .get('http://localhost:9999/test')
+      .post('http://localhost:9999/auth/login', state)
       .then(({data}) => {
-        console.log(data)
+        setContext(prevContext => ({
+          ...prevContext,
+          userName: data.name
+        }))
+        navigate('/dashboard');
       })
       .catch(() => {})
-  }, [])  
+  };
+
   return (
     <>
       <div className="login w-1/4 m-auto border rounded-xl">
