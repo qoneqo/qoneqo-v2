@@ -1,5 +1,16 @@
-import React from 'react';
+import React, {useEffect} from 'react';
+import axios from 'axios';
+axios.defaults.withCredentials = true;
+
 const Home = () => {
+  useEffect(() => {
+    axios
+      .get('http://localhost:9999', {withCredentials: true})
+      .then(({data}) => {
+        console.log(data)
+      })
+      .catch(() => {})
+  }, [])  
   return (
     <>
       <div className="home">

@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import Form from '../../../components/Form';
 import { useNavigate } from 'react-router';
 
 const Login = () => {
   const [state, setState] = useState({
-    username: '',
+    identifier: '',
     password: '',
   });
   let navigate = useNavigate();
@@ -14,6 +15,14 @@ const Login = () => {
     navigate('/dashboard');
   };
 
+  useEffect(() => {
+    axios
+      .get('http://localhost:9999/test')
+      .then(({data}) => {
+        console.log(data)
+      })
+      .catch(() => {})
+  }, [])  
   return (
     <>
       <div className="login w-1/4 m-auto border rounded-xl">
@@ -22,9 +31,9 @@ const Login = () => {
           <Form.Group>
             <Form.Input
               placeholder="Username"
-              value={state.username}
+              value={state.identifier}
               onChange={(e) =>
-                setState((prev) => ({ ...prev, username: e.target.value }))
+                setState((prev) => ({ ...prev, identifier: e.target.value }))
               }
             />
           </Form.Group>
