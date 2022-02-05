@@ -5,107 +5,37 @@ import Section from '../../../components/Section';
 import Card from '../../../components/Card';
 import Datatable from '../../../components/Datatable';
 
-const dataTable = {
-  t_head: {
-    name: 'Name',
-    email: 'Email',
-    age: 'Age',
-    phone: 'Phone',
-  },
-  t_body: [
-    {
-      name: 'John Doe',
-      email: 'johndoe@gmail.com',
-      age: '24',
-      phone: '08493333444',
-    },
-    {
-      name: 'Jean Dean',
-      email: 'jeandean@gmail.com',
-      age: '22',
-      phone: '081232134555',
-    },
-    {
-      name: 'Naka Mura',
-      email: 'nakamura@gmail.com',
-      age: '30',
-      phone: '021344445555',
-    },
-    {
-      name: 'John Doe',
-      email: 'johndoe@gmail.com',
-      age: '24',
-      phone: '08493333444',
-    },
-    {
-      name: 'Jean Dean',
-      email: 'jeandean@gmail.com',
-      age: '22',
-      phone: '081232134555',
-    },
-    {
-      name: 'Naka Mura',
-      email: 'nakamura@gmail.com',
-      age: '30',
-      phone: '021344445555',
-    },
-    {
-      name: 'John Doe',
-      email: 'johndoe@gmail.com',
-      age: '24',
-      phone: '08493333444',
-    },
-    {
-      name: 'Jean Dean',
-      email: 'jeandean@gmail.com',
-      age: '22',
-      phone: '081232134555',
-    },
-    {
-      name: 'Naka Mura',
-      email: 'nakamura@gmail.com',
-      age: '30',
-      phone: '021344445555',
-    },
-    {
-      name: 'John Doe',
-      email: 'johndoe@gmail.com',
-      age: '24',
-      phone: '08493333444',
-    },
-    {
-      name: 'Jean Dean',
-      email: 'jeandean@gmail.com',
-      age: '22',
-      phone: '081232134555',
-    },
-    {
-      name: 'Naka Mura',
-      email: 'nakamura@gmail.com',
-      age: '30',
-      phone: '021344445555',
-    },
-  ],
-  order_col: [
-    'name', 'email', 'age', 'phone',
-  ],
-};
-
 const Users = () => {
+  const [datatable, setDatatable] = useState({
+    t_head: {
+      id: 'id',
+      identifier: 'Username',
+      name: 'Name',
+      email: 'Email',
+      is_active: 'Status',      
+    },
+    t_body: [],
+    order_col: ['id', 'identifier', 'name', 'email', 'is_active'],
+    base_endpoint: '',
+  });
   useEffect(() => {
-    axios.get('http://localhost:9999/users')
+    axios.get('http://localhost:9999/users/datatable?limit=10&offset=0')
     .then(({data}) => {
-      console.log(data);
+      setDatatable(prev => ({
+        ...prev,
+        ...data.widget_data,
+      }));
     })
     .catch(() => {})
   }, [])
+
   return (
     <>
       <Title>Users</Title>
       <section>
         <Section>
           <Card title="List Users">
-            <Datatable {...dataTable} />
+            <Datatable {...datatable} serverside={true} />
           </Card>
         </Section>
       </section>

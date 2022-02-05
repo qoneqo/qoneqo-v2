@@ -49,7 +49,7 @@ const checkTotalData = (total_data, tbody = []) => {
 }
 
 const DatatableServerside = (props) => {  
-  let { t_head, t_body, sortable_fields, total_data, pagination, per_page, base_endpoint, order_col } = props;
+  let { t_head, t_body, sortable_fields, total_data, pagination, pagination_max, pagination_max_current, per_page, base_endpoint, order_col } = props;
   per_page = !per_page ? t_body.length : per_page;
   total_data = checkTotalData(total_data, t_body);
   sortable_fields = checkSortableFields(sortable_fields, order_col);
@@ -58,6 +58,7 @@ const DatatableServerside = (props) => {
     sortList: initSortList(sortable_fields),
     currentPage: 1,
     total_data,
+    pagination_max_current,
   });
 
   useEffect(() => {
@@ -67,8 +68,9 @@ const DatatableServerside = (props) => {
       sortList: initSortList(sortable_fields),
       currentPage: 1,
       total_data,
+      pagination_max_current,
     }));
-  }, [t_head, t_body, sortable_fields, total_data, pagination, per_page, base_endpoint, order_col, t_body.length])
+  }, [t_head, t_body, sortable_fields, total_data, pagination, pagination_max_current, per_page, base_endpoint, order_col, t_body.length])
 
   useEffect(() => {
     if (base_endpoint === '') { return; }
@@ -80,20 +82,21 @@ const DatatableServerside = (props) => {
      */
     if (countOrder === 1) {
       let [order_by, order_dir] = Object.entries(state.sortList).find(([key, val]) => (val)) || ['', ''];
-      order = `${order_by && '&order_by='+order_by}${order_dir && '&order_dir='+order_dir}`;
+      // order = `${order_by && '&order_by='+order_by}${order_dir && '&order_dir='+order_dir}`;
+      order = order_by && `&order=${order_by} ${order_dir}`;
     }
     /**
      * if multiple sort
      */
     else if (countOrder > 1) {
       Object.entries(state.sortList).forEach(([key, value]) => {
-         order += value && `${key} ${value} `
+         order += value && `${key} ${value}, `
       })
-      order = order && '&order='+order;
+      order = order && '&order='+order.slice(0, -2);
     }
       
     axios.get(`${base_endpoint}?${per_page && 'limit='+per_page}${offset && '&offset='+offset}${order}`)
-    .then(({data: {data: {widget_data}}}) => {      
+    .then(({data: {widget_data}}) => {   
       setState((prev) => ({
         ...prev,
         t_body: widget_data.t_body,
@@ -101,7 +104,7 @@ const DatatableServerside = (props) => {
       }));
     })
     .catch(() => {})
-  }, [state.currentPage, state.sortList])
+  }, [state.currentPage, state.sortList, base_endpoint, per_page, t_body.length])
 
   const handleOrder = (key, event) => {
     let orderDir = '';
@@ -138,23 +141,57 @@ const DatatableServerside = (props) => {
   }
 
   const handleClickPagination = (page) => {
-    if (page === 'prev' ) {
-      if (state.currentPage <= 1) {return;}
-      setState((prev) => ({
-        ...prev,
-        currentPage: Number(prev.currentPage)-1,
-      }))
-    } else if (page === 'next') {
-      if (state.currentPage+1 > Math.ceil(total_data/per_page)) {return;}
-      setState((prev) => ({
-        ...prev,
-        currentPage: Number(prev.currentPage)+1,
-      }))
-    } else {      
-      setState((prev) => ({
-        ...prev,
-        currentPage: Number(page),
-      }))
+    switch (page) {
+      case 'prev':
+        if (state.currentPage <= 1) {return;}
+        setState((prev) => ({
+          ...prev,
+          currentPage: Number(prev.currentPage)-1,
+          pagination_max_current: Number(prev.currentPage-1) < prev.pagination_max_current ? Number(prev.currentPage) - pagination_max : prev.pagination_max_current,          
+        }))        
+        break;
+      case 'next':
+        if (state.currentPage+1 > Math.ceil(state.t_body.length/per_page)) {return;}
+        setState((prev) => ({
+          ...prev,
+          currentPage: Number(prev.currentPage)+1,
+          pagination_max_current: Number(prev.currentPage+1) >= prev.pagination_max_current + pagination_max ? Number(prev.currentPage)+1 : prev.pagination_max_current,          
+        }))
+        break;
+      case 'prev...':
+        setState(prev => ({
+          ...prev, 
+          currentPage: prev.pagination_max_current - pagination_max, 
+          pagination_max_current: prev.pagination_max_current - pagination_max,          
+        }))
+        break;
+      case 'next...':
+        setState(prev => ({
+          ...prev, 
+          currentPage: prev.pagination_max_current + pagination_max, 
+          pagination_max_current: prev.pagination_max_current + pagination_max,          
+        }))
+        break;
+      case 'first':
+        setState((prev) => ({
+          ...prev,
+          currentPage: 1,          
+          pagination_max_current: 1,
+        }))
+        break;
+      case 'last':
+        setState((prev) => ({
+          ...prev,
+          currentPage: Math.ceil(state.total_data/per_page),          
+          pagination_max_current: Math.ceil(state.total_data/per_page) + 1 - ((Math.ceil(state.total_data/per_page) % pagination_max) ? (Math.ceil(state.total_data/per_page) % pagination_max) : pagination_max),
+        }))
+        break;
+      default:
+        setState((prev) => ({
+          ...prev,
+          currentPage: Number(page),
+        }))
+        break;
     }
   }
 
@@ -181,10 +218,10 @@ const DatatableServerside = (props) => {
           <tbody>
             {
               state.t_body?.map((row, index) => (
-                <tr className={`odd:bg-[#F9F9FB]`} key={index}>
+                <tr className={`odd:bg-[#F9F9FB]`} key={index+ Math.random()}>
                   {
                     order_col.map((key) => (
-                      <td className={`p-2 font-normal text-sm text-[#373737] border-b border-b-[#E8E8E8]`} key={key+'-'+index}>{row[key]}</td>
+                      <td className={`p-2 font-normal text-sm text-[#373737] border-b border-b-[#E8E8E8]`} key={key+'-'+index+'-'+Math.random()}>{row[key]}</td>
                     ))
                   }
                 </tr>
@@ -197,12 +234,37 @@ const DatatableServerside = (props) => {
           <div className={`my-2 text-right`}>
             <span onClick={() => {handleClickPagination('prev')}} className={`cursor-pointer border border-[#797979] w-6 h-6 inline-block text-center text-sm ${state.currentPage === 1 && 'cursor-not-allowed text-[#A6A6A6]'}`}><AiFillCaretLeft className={`inline-block`} /></span>
             {
-              Array.from({length: Math.ceil(state.total_data/per_page)}, (_, i) => i+1).map((val) => (
+              <span key={`page-first`} 
+              onClick={() => { handleClickPagination('first');  }} 
+              className={`cursor-pointer border border-[#797979] px-2 h-6 inline-block text-center text-sm ${state.currentPage === 1 && 'bg-[#3989DA] text-white'}`}
+              >1</span>
+            }
+            { (state.currentPage > pagination_max) &&
+              <span key={`page-prev-...`} 
+              className={`cursor-pointer border border-[#797979] w-6 h-6 inline-block text-center text-sm`}
+              onClick={() => { handleClickPagination('prev...') }}
+              >...</span>
+            }
+            {
+              Array.from({length: Math.ceil(state.total_data/per_page) < pagination_max ? Math.ceil(state.total_data/per_page) : pagination_max}, (_, i) => i+ state.pagination_max_current).map((val) => (
+                (val > 1 && val < Math.ceil(state.total_data/per_page)) &&
                 <span key={`page-${val}`} 
                 onClick={() => {handleClickPagination(val)}} 
-                className={`cursor-pointer border border-[#797979] w-6 h-6 inline-block text-center text-sm ${state.currentPage === val && 'bg-[#3989DA] text-white'}`} 
+                className={`cursor-pointer border border-[#797979] w-6 h-6 inline-block text-center text-sm ${state.currentPage === val && 'bg-[#3989DA] text-white'}`}
                 >{val}</span>
-              ))
+              ))              
+            }
+            { (state.pagination_max_current <= Math.ceil(state.total_data/per_page) - pagination_max  && Math.ceil(state.total_data/per_page) > pagination_max) &&
+              <span key={`page-next-...`} 
+              className={`cursor-pointer border border-[#797979] w-6 h-6 inline-block text-center text-sm`}
+              onClick={() => { handleClickPagination('next...') }}
+              >...</span>
+            }
+            {
+              <span key={`page-last`} 
+              onClick={() => { handleClickPagination('last');  }} 
+              className={`cursor-pointer border border-[#797979] px-2 h-6 inline-block text-center text-sm ${state.currentPage === Math.ceil(state.total_data/per_page) && 'bg-[#3989DA] text-white'}`}
+              >{Math.ceil(state.total_data/per_page)}</span>
             }
             <span onClick={() => {handleClickPagination('next')}} className={`cursor-pointer border border-[#797979] w-6 h-6 inline-block text-center text-sm ${state.currentPage === Math.ceil(state.total_data/per_page) && 'cursor-not-allowed text-[#A6A6A6]'}`}><AiFillCaretRight className={`inline-block`} /></span>
           </div>
@@ -219,6 +281,8 @@ DatatableServerside.defaultProps = {
   sortable_fields: {},
   total_data: null,
   pagination: true,
+  pagination_max: 5,
+  pagination_max_current: 1,
   per_page: 10,
   per_page_list: [10,15,25,50],
   base_endpoint: '',

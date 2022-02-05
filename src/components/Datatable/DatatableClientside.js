@@ -99,7 +99,7 @@ const sortTBody = (t_body = [], sortList, original_t_body = []) => {
   return result;
 } 
 const DatatableClientside = (props) => {
-  let { t_head, t_body, sortable_fields, total_data, pagination, per_page, order_col } = props;
+  let { t_head, t_body, sortable_fields, total_data, pagination, pagination_max, pagination_max_current, per_page, order_col } = props;
   per_page = !per_page ? t_body.length : per_page;
   total_data = checkTotalData(total_data, t_body);
   sortable_fields = checkSortableFields(sortable_fields, order_col);
@@ -112,6 +112,7 @@ const DatatableClientside = (props) => {
     sortList: initSortList(sortable_fields),
     currentPage: 1,
     total_data,
+    pagination_max_current,
   });
   useEffect(() => {
     setState((prev) => ({
@@ -121,8 +122,9 @@ const DatatableClientside = (props) => {
       sortList: initSortList(sortable_fields),
       currentPage: 1,
       total_data,
+      pagination_max_current,
     }))
-  }, [t_head, t_body, sortable_fields, total_data, pagination, per_page, order_col])
+  }, [t_head, t_body, sortable_fields, total_data, pagination, pagination_max_current, per_page, order_col])
 
   const handleOrder = (key, event) => {
     let orderDir = '';
@@ -163,26 +165,64 @@ const DatatableClientside = (props) => {
   }
 
   const handleClickPagination = (page) => {
-    if (page === 'prev' ) {
-      if (state.currentPage <= 1) {return;}
-      setState((prev) => ({
-        ...prev,
-        currentPage: Number(prev.currentPage)-1,
-        data: FilterData(prev.t_body, Number(prev.currentPage)-1, per_page),
-      }))
-    } else if (page === 'next') {
-      if (state.currentPage+1 > Math.ceil(state.t_body.length/per_page)) {return;}
-      setState((prev) => ({
-        ...prev,
-        currentPage: Number(prev.currentPage)+1,
-        data: FilterData(prev.t_body, Number(prev.currentPage)+1, per_page),
-      }))
-    } else {      
-      setState((prev) => ({
-        ...prev,
-        currentPage: Number(page),
-        data: FilterData(prev.t_body, Number(page), per_page),
-      }))
+    switch (page) {
+      case 'prev':
+        if (state.currentPage <= 1) {return;}
+        setState((prev) => ({
+          ...prev,
+          currentPage: Number(prev.currentPage)-1,
+          pagination_max_current: Number(prev.currentPage-1) < prev.pagination_max_current ? Number(prev.currentPage) - pagination_max : prev.pagination_max_current,
+          data: FilterData(prev.t_body, Number(prev.currentPage)-1, per_page),
+        }))        
+        break;
+      case 'next':
+        if (state.currentPage+1 > Math.ceil(state.t_body.length/per_page)) {return;}
+        setState((prev) => ({
+          ...prev,
+          currentPage: Number(prev.currentPage)+1,
+          pagination_max_current: Number(prev.currentPage+1) >= prev.pagination_max_current + pagination_max ? Number(prev.currentPage)+1 : prev.pagination_max_current,
+          data: FilterData(prev.t_body, Number(prev.currentPage)+1, per_page),
+        }))
+        break;
+      case 'prev...':
+        setState(prev => ({
+          ...prev, 
+          currentPage: prev.pagination_max_current - pagination_max, 
+          pagination_max_current: prev.pagination_max_current - pagination_max,
+          data: FilterData(prev.t_body, prev.pagination_max_current - pagination_max, per_page),
+        }))
+        break;
+      case 'next...':
+        setState(prev => ({
+          ...prev, 
+          currentPage: prev.pagination_max_current + pagination_max, 
+          pagination_max_current: prev.pagination_max_current + pagination_max,
+          data: FilterData(prev.t_body, prev.pagination_max_current + pagination_max, per_page),
+        }))
+        break;
+      case 'first':
+        setState((prev) => ({
+          ...prev,
+          currentPage: 1,
+          data: FilterData(prev.t_body, 1, per_page),
+          pagination_max_current: 1,
+        }))
+        break;
+      case 'last':
+        setState((prev) => ({
+          ...prev,
+          currentPage: Math.ceil(state.total_data/per_page),
+          data: FilterData(prev.t_body, Math.ceil(state.total_data/per_page), per_page),
+          pagination_max_current: Math.ceil(state.total_data/per_page) + 1 - ((Math.ceil(state.total_data/per_page) % pagination_max) ? (Math.ceil(state.total_data/per_page) % pagination_max) : pagination_max),
+        }))
+        break;
+      default:
+        setState((prev) => ({
+          ...prev,
+          currentPage: Number(page),
+          data: FilterData(prev.t_body, Number(page), per_page),
+        }))
+        break;
     }
   }
 
@@ -225,12 +265,37 @@ const DatatableClientside = (props) => {
           <div className={`my-2 text-right`}>
             <span onClick={() => {handleClickPagination('prev')}} className={`cursor-pointer border border-[#797979] w-6 h-6 inline-block text-center text-sm ${state.currentPage === 1 && 'cursor-not-allowed text-[#A6A6A6]'}`}><AiFillCaretLeft className={`inline-block`} /></span>
             {
-              Array.from({length: Math.ceil(state.total_data/per_page)}, (_, i) => i+1).map((val) => (
+              <span key={`page-first`} 
+              onClick={() => { handleClickPagination('first');  }} 
+              className={`cursor-pointer border border-[#797979] px-2 h-6 inline-block text-center text-sm ${state.currentPage === 1 && 'bg-[#3989DA] text-white'}`}
+              >1</span>
+            }
+            { (state.currentPage > pagination_max) &&
+              <span key={`page-prev-...`} 
+              className={`cursor-pointer border border-[#797979] w-6 h-6 inline-block text-center text-sm`}
+              onClick={() => { handleClickPagination('prev...') }}
+              >...</span>
+            }
+            {
+              Array.from({length: Math.ceil(state.total_data/per_page) < pagination_max ? Math.ceil(state.total_data/per_page) : pagination_max}, (_, i) => i+ state.pagination_max_current).map((val) => (
+                (val > 1 && val < Math.ceil(state.total_data/per_page)) &&
                 <span key={`page-${val}`} 
                 onClick={() => {handleClickPagination(val)}} 
                 className={`cursor-pointer border border-[#797979] w-6 h-6 inline-block text-center text-sm ${state.currentPage === val && 'bg-[#3989DA] text-white'}`}
                 >{val}</span>
-              ))
+              ))              
+            }
+            { (state.pagination_max_current <= Math.ceil(state.total_data/per_page) - pagination_max  && Math.ceil(state.total_data/per_page) > pagination_max) &&
+              <span key={`page-next-...`} 
+              className={`cursor-pointer border border-[#797979] w-6 h-6 inline-block text-center text-sm`}
+              onClick={() => { handleClickPagination('next...') }}
+              >...</span>
+            }
+            {
+              <span key={`page-last`} 
+              onClick={() => { handleClickPagination('last');  }} 
+              className={`cursor-pointer border border-[#797979] px-2 h-6 inline-block text-center text-sm ${state.currentPage === Math.ceil(state.total_data/per_page) && 'bg-[#3989DA] text-white'}`}
+              >{Math.ceil(state.total_data/per_page)}</span>
             }
             <span onClick={() => {handleClickPagination('next')}} className={`cursor-pointer border border-[#797979] w-6 h-6 inline-block text-center text-sm ${state.currentPage === Math.ceil(state.total_data/per_page) && 'cursor-not-allowed text-[#A6A6A6]'}`}><AiFillCaretRight className={`inline-block`} /></span>
           </div>
@@ -247,6 +312,8 @@ DatatableClientside.defaultProps = {
   sortable_fields: {},
   total_data: null,
   pagination: true,
+  pagination_max: 5,
+  pagination_max_current: 1,
   per_page: 10,
   per_page_list: [10,15,25,50],
   order_col: [],
