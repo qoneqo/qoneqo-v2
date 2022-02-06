@@ -34,7 +34,7 @@ const Login = () => {
   return (
     isLoggedIn || 
     <>
-      <div className="login w-1/4 m-auto border rounded-xl">
+      <div className="login w-1/4 m-auto translate-y-1/2 border rounded-xl">
         <p className="text-xl text-center my-2">Login Page</p>
         <Form>
           <Form.Group>

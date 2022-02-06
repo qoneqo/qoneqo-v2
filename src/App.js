@@ -33,7 +33,7 @@ const App = () => {
       <div className="App">
         <div className="flex w-full">
           <AppSidebar className="flex-none" />
-          <div className="w-full flex-auto">
+          <div className="flex-auto">
             <AppHeader />
             <AppContent />
             <AppFooter />

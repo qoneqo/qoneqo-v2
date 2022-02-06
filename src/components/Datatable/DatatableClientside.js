@@ -229,7 +229,7 @@ const DatatableClientside = (props) => {
   
   return (
     <>
-      <div className={`my-3`}>
+      <div className={`my-3 overflow-x-auto`}>
         <table className={`w-full bg-white`}>
           <thead>
             <tr>

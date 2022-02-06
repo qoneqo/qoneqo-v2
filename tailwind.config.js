@@ -10,6 +10,7 @@ module.exports = {
         'hover': '#000000',
         'primary': '#199dd9',
         'secondary': '#000000',
+        'tertiary': '#474491',
       }
     },
   },
