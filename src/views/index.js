@@ -4,6 +4,7 @@ import axios from 'axios';
 import Web from '../Web';
 import Home from './web/Home';
 import Articles from './web/Articles';
+import Article from './web/Article';
 import Login from './web/Login';
 import App from '../App';
 import Dashboard from './app/Dashboard';
@@ -23,6 +24,7 @@ const Index = () => {
             <Route path="/" element={<Web />}>
               <Route index element={<Home />} />
               <Route path="articles" element={<Articles />} />
+              <Route path="article/:slug" element={<Article />} />
               <Route path="login" element={<Login />} />
             </Route>
             <Route path="/dashboard" element={<App />}>
