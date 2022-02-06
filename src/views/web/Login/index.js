@@ -1,32 +1,38 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useLayoutEffect } from 'react';
 import axios from 'axios';
 import Form from '../../../components/Form';
 import { useNavigate } from 'react-router';
-import Context from '../../Context';
 
 const Login = () => {
-  const { setContext } = useContext(Context);
   const [state, setState] = useState({
     identifier: '',
     password: '',
   });
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const navigate = useNavigate();
+
+  useLayoutEffect(() => {
+    axios.get(`${process.env.REACT_APP_API_URL}/users/show`)
+    .then(() => {
+      navigate('/dashboard');
+    })
+    .catch(() => {
+      setIsLoggedIn(false);
+    })
+  }, [])
 
   const handleLogin = (e) => {
     e.preventDefault();
     axios
-      .post('http://localhost:9999/auth/login', state)
+      .post(`${process.env.REACT_APP_API_URL}/auth/login`, state)
       .then(({data}) => {
-        setContext(prevContext => ({
-          ...prevContext,
-          userName: data.name
-        }))
         navigate('/dashboard');
       })
       .catch(() => {})
   };
 
   return (
+    isLoggedIn || 
     <>
       <div className="login w-1/4 m-auto border rounded-xl">
         <p className="text-xl text-center my-2">Login Page</p>

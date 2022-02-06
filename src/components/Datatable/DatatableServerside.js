@@ -151,7 +151,7 @@ const DatatableServerside = (props) => {
         }))        
         break;
       case 'next':
-        if (state.currentPage+1 > Math.ceil(state.t_body.length/per_page)) {return;}
+        if (state.currentPage+1 > Math.ceil(state.total_data/per_page)) {return;}
         setState((prev) => ({
           ...prev,
           currentPage: Number(prev.currentPage)+1,

@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router';
 
 const AppHeader = () => {
   const navigate = useNavigate();
-  const { context } = useContext(Context);
+  const { context, setContext } = useContext(Context);
   const ref = useRef(null);
   const [showPanel, setShowPanel] = useState(false);
   
@@ -31,8 +31,9 @@ const AppHeader = () => {
   };
 
   const handleLogout = () => {
-    axios.post('http://localhost:9999/auth/logout')
+    axios.post(`${process.env.REACT_APP_API_URL}/auth/logout`)
     .then((data) => {
+      setContext(null);
       navigate('/');
     })
     .catch(() => {})
@@ -51,14 +52,14 @@ const AppHeader = () => {
         <div className="flex text-sm text-unhover h-full">
           <div className="h-full sm:flex hidden items-center justify-center">
             <img className="h-full rounded-[50%]" src={dp} alt="" />
-            <span className="mx-1 text-black">{ context.userName }</span>
+            <span className="mx-1 text-black">{ context?.userName }</span>
           </div>
           <div ref={ref} className="relative h-full flex items-center">
             <AiOutlineMore onClick={handleShowMenu} className="text-xl cursor-pointer hover:text-black" />
             <div className={`more ${!showPanel && 'hidden'} w-32 absolute right-[-0.5rem] top-7 bg-white px-3 py-2`}>
               <div className="sm:hidden flex relative text-center items-center flex-col h-20 border-b py-1">
                 <img className="h-full rounded-[50%]" src={dp} alt="" />
-                <span className="mx-1 text-black">{ context.userName }</span>
+                <span className="mx-1 text-black">{ context?.userName }</span>
               </div>
               <ul>
                 <li className="py-2 group">

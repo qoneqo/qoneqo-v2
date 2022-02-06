@@ -19,7 +19,7 @@ const Users = () => {
     base_endpoint: '',
   });
   useEffect(() => {
-    axios.get('http://localhost:9999/users/datatable?limit=10&offset=0')
+    axios.get(`${process.env.REACT_APP_API_URL}/users/datatable?limit=10&offset=0`)
     .then(({data}) => {
       setDatatable(prev => ({
         ...prev,

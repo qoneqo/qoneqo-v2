@@ -13,9 +13,7 @@ import Context from './Context';
 axios.defaults.withCredentials = true
 
 const Index = () => {
-  const [context, setContext] = useState({
-    userName: 'Admin'
-  });
+  const [context, setContext] = useState(null);
 
   return (
     <>
