@@ -1,40 +1,53 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {Link, useLocation} from 'react-router-dom';
 import {
   AiOutlineDashboard,
   AiOutlineUser,
   AiOutlineTeam,
-  AiOutlineTags,
+  AiOutlineAppstore,
 } from 'react-icons/ai';
 import LogoImg from '../../assets/images/logo.png';
-const AppSidebar = ({className}) => {
+const AppSidebar = ({className, navCollapse}) => {
   let pathname = useLocation().pathname;
+
 
   return (
     <>
-      <aside className={`sidebar z-10 flex flex-col bg-white ${className}`}>
+      <aside className={`sidebar bg-white z-10 flex flex-col w-fit`}>
         <ul>
-          <li className="border-b p-2 text-center h-12">
-            <img className="h-full inline-block" src={LogoImg} alt="" />
+          <li className="border-b p-2 text-center h-12 flex items-center">
+            <img className="h-full inline-block pr-2" src={LogoImg} alt="" />
+            { navCollapse && <span className="mx-1 leading-3">Qoneqo</span>}            
           </li>
-          <li className="group my-2 text-xl" title="Dashboard">
-            <Link className="block text-center" to="/dashboard">
+          { navCollapse && <li className="px-4 py-2 text-xs text-unhover"> Core Modules </li> }
+          <li className="group text-xl" title="Dashboard">
+            <Link className={`block ${navCollapse ?  'text-left pl-4' : 'text-center'}`} to="/dashboard">
               <AiOutlineDashboard className={`inline text-unhover ${pathname === '/dashboard' && 'text-hover'} group-hover:text-hover`} />
+              { navCollapse && <span className={`mx-1 text-sm text-unhover ${pathname === '/dashboard' && 'text-hover'} group-hover:text-hover`}>Dashboard</span> }
+            </Link>
+          </li>
+          <li className="group my-2 text-xl" title="Apps">
+            <Link className={`block ${navCollapse ?  'text-left pl-4' : 'text-center'}`} to="/dashboard/apps">
+              <AiOutlineAppstore className={`inline text-unhover ${pathname === '/dashboard/apps' && 'text-hover'} group-hover:text-hover`} />
+              { navCollapse && <span className={`mx-1 text-sm text-unhover ${pathname === '/dashboard/apps' && 'text-hover'} group-hover:text-hover`}>Apps</span> }
             </Link>
           </li>
           <li className="group my-2 text-xl" title="Users">
-            <Link className="block text-center" to="/dashboard/users">
+            <Link className={`block ${navCollapse ?  'text-left pl-4' : 'text-center'}`} to="/dashboard/users">
               <AiOutlineUser className={`inline text-unhover ${pathname === '/dashboard/users' && 'text-hover'} group-hover:text-hover`} />
+              { navCollapse && <span className={`mx-1 text-sm text-unhover ${pathname === '/dashboard/users' && 'text-hover'} group-hover:text-hover`}>Users</span> }
             </Link>
           </li>
           <li className="group my-2 text-xl" title="User Roles">
-            <Link className="block text-center" to="#">
+            <Link className={`block ${navCollapse ?  'text-left pl-4' : 'text-center'}`} to="#">
               <AiOutlineTeam className={`inline text-unhover ${pathname === '/dashboard/roles' && 'text-hover'} group-hover:text-hover`} />
+              { navCollapse && <span className={`mx-1 text-sm text-unhover ${pathname === '/dashboard/roles' && 'text-hover'} group-hover:text-hover`}>Roles</span> }
             </Link>
           </li>
-          <li className="group my-2 text-xl" title="Tags">
-            <Link className="block text-center" to="#">
-              <AiOutlineTags className={`inline text-unhover ${pathname === '/dashboard/tags' && 'text-hover'} group-hover:text-hover`} />
+          <li className="group my-2 text-xl" title="Modules">
+            <Link className={`block ${navCollapse ?  'text-left pl-4' : 'text-center'}`} to="/dashboard/modules">
+              <AiOutlineAppstore className={`inline text-unhover ${pathname === '/dashboard/modules' && 'text-hover'} group-hover:text-hover`} />
+              { navCollapse && <span className={`mx-1 text-sm text-unhover ${pathname === '/dashboard/modules' && 'text-hover'} group-hover:text-hover`}>Modules</span> }
             </Link>
           </li>
         </ul>

@@ -99,7 +99,7 @@ const sortTBody = (t_body = [], sortList, original_t_body = []) => {
   return result;
 } 
 const DatatableClientside = (props) => {
-  let { t_head, t_body, sortable_fields, total_data, pagination, pagination_max, pagination_max_current, per_page, order_col } = props;
+  let { t_head, t_body, t_format, sortable_fields, total_data, pagination, pagination_max, pagination_max_current, per_page, order_col } = props;
   per_page = !per_page ? t_body.length : per_page;
   total_data = checkTotalData(total_data, t_body);
   sortable_fields = checkSortableFields(sortable_fields, order_col);
@@ -252,7 +252,7 @@ const DatatableClientside = (props) => {
                 <tr className={`odd:bg-[#F9F9FB]`} key={index}>
                   {
                     order_col.map((key) => (
-                      <td className={`p-2 font-normal text-sm text-[#373737] border-b border-b-[#E8E8E8]`} key={key}>{row[key]}</td>
+                      <td className={`p-2 font-normal text-sm text-[#373737] border-b border-b-[#E8E8E8]`} key={key}>{t_format[key] ? t_format[key](row) : row[key]}</td>
                     ))
                   }
                 </tr>
@@ -308,6 +308,7 @@ const DatatableClientside = (props) => {
 
 DatatableClientside.defaultProps = {
   t_head: {},
+  t_format: {},
   t_body: [],
   sortable_fields: {},
   total_data: null,

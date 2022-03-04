@@ -1,3 +1,4 @@
+import React from 'react';
 import NoImg from '../../assets/images/no-img.png';
 import StrLimit from '../../utils/StrLimit';
 

@@ -49,7 +49,7 @@ const checkTotalData = (total_data, tbody = []) => {
 }
 
 const DatatableServerside = (props) => {  
-  let { t_head, t_body, sortable_fields, total_data, pagination, pagination_max, pagination_max_current, per_page, base_endpoint, order_col } = props;
+  let { t_head, t_format, t_body, sortable_fields, total_data, pagination, pagination_max, pagination_max_current, per_page, base_endpoint, order_col } = props;
   per_page = !per_page ? t_body.length : per_page;
   total_data = checkTotalData(total_data, t_body);
   sortable_fields = checkSortableFields(sortable_fields, order_col);
@@ -60,7 +60,6 @@ const DatatableServerside = (props) => {
     total_data,
     pagination_max_current,
   });
-
   useEffect(() => {
     setState((prev) => ({
       ...prev,
@@ -206,7 +205,7 @@ const DatatableServerside = (props) => {
                 <th className={`p-2 font-normal text-sm text-[#373737] border-b border-b-[#D2D2D2] text-left`} key={key}>
                   <div className={`flex relative cursor-pointer`} onClick={(event) => { handleOrder(key, event) }}>
                     <span className="mr-2">{t_head[key]}</span> 
-                    <span className={`ml-2 ${sortable_fields[key] === false && 'hidden'}`}>
+                    <span className={`ml-2 ${(sortable_fields[key] === false || t_format[key]) && 'hidden'}`}>
                       <AiFillCaretUp className={`fa fa-caret-up absolute text-[#D2D2D2] top-[-1px] right-0 ${state.sortList[key] === 'desc' && 'hidden'}`} />
                       <AiFillCaretDown className={`fa fa-caret-down absolute text-[#D2D2D2] bottom-[-1px] right-0 ${state.sortList[key] === 'asc' && 'hidden'}`} />
                     </span>
@@ -221,7 +220,7 @@ const DatatableServerside = (props) => {
                 <tr className={`odd:bg-[#F9F9FB]`} key={index+ Math.random()}>
                   {
                     order_col.map((key) => (
-                      <td className={`p-2 font-normal text-sm text-[#373737] border-b border-b-[#E8E8E8]`} key={key+'-'+index+'-'+Math.random()}>{row[key]}</td>
+                      <td className={`p-2 font-normal text-sm text-[#373737] border-b border-b-[#E8E8E8]`} key={key+'-'+index+'-'+Math.random()}>{ t_format[key] ? t_format[key](row) : row[key]}</td>
                     ))
                   }
                 </tr>
@@ -278,6 +277,7 @@ const DatatableServerside = (props) => {
 DatatableServerside.defaultProps = {
   t_head: {},
   t_body: [],
+  t_format: {},
   sortable_fields: {},
   total_data: null,
   pagination: true,

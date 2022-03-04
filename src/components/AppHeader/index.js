@@ -1,13 +1,13 @@
 import React, {useState, useEffect, useRef, useContext } from 'react';
 import {Link} from 'react-router-dom';
 import axios from 'axios';
-import { AiOutlineSearch, AiOutlineMore, AiOutlineSetting, AiOutlineLogout } from 'react-icons/ai';
+import { AiOutlineSearch, AiOutlineMore, AiOutlineSetting, AiOutlineLogout, AiOutlineDoubleLeft, AiOutlineDoubleRight } from 'react-icons/ai';
 import dp from './../../assets/images/user.jpg';
 import Context from '../../views/Context';
 import { useNavigate } from 'react-router';
 
 
-const AppHeader = () => {
+const AppHeader = ({handleNavCollapse: [navCollapse, handleNavCollapse]}) => {
   const navigate = useNavigate();
   const { context, setContext } = useContext(Context);
   const ref = useRef(null);
@@ -41,13 +41,16 @@ const AppHeader = () => {
   return (
     <>
       <header className="header p-2 flex h-12 items-center justify-between bg-white border-b">
-        <div className="relative flex items-center">
-          <AiOutlineSearch className="text-lg absolute left-1 bottom-1/2 translate-y-1/2" />
-          <input
-            className="search p-1 pl-6 text-xs rounded-md bg-content-layout"
-            type="text"
-            placeholder="Search"
-          />
+        <div className="flex">
+          <button className="bg-white p-2 pl-0" onClick={handleNavCollapse}>{ navCollapse ? <AiOutlineDoubleLeft /> : <AiOutlineDoubleRight /> }</button>
+          <div className="relative flex items-center">
+            <AiOutlineSearch className="text-lg absolute left-1 bottom-1/2 translate-y-1/2" />
+            <input
+              className="search p-1 pl-6 text-xs rounded-md bg-content-layout"
+              type="text"
+              placeholder="Search"
+            />
+          </div>
         </div>
         <div className="flex text-sm text-unhover h-full">
           <div className="h-full sm:flex hidden items-center justify-center">

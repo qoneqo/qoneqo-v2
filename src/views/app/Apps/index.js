@@ -7,27 +7,24 @@ import Button from '../../../components/Button';
 import Datatable from '../../../components/Datatable';
 import { Link } from 'react-router-dom';
 
-const Users = () => {
+const Apps = () => {
   const [datatable, setDatatable] = useState({
     t_head: {
-      id: 'id',
+      id: 'Id',
       action: 'Action',
-      identifier: 'Username',
       name: 'Name',
-      email: 'Email',
-      is_active: 'Status',
+      logo: 'Logo',
+      type: 'Type',
     },
-    order_col: ['id', 'action', 'identifier', 'name', 'email', 'is_active'],
+    order_col: ['id', 'action', 'name', 'logo', 'type'],
     t_format: {
-      action: (props) => (<><Link to={`/dashboard/users/edit/${props.id}`}><Button type="primary">Edit</Button></Link><Button type="ternary">Delete</Button></>),
-      is_active: (props) => (<>{ props.is_active === 0 ? 'Inactive' : 'Active' }</>)
+      action: (props = {}) => (<><Link className="" to={`/dashboard/apps/edit/${props.id}`}><Button type="primary">Edit</Button></Link><Button type="ternary">Delete</Button></>)
     },
     t_body: [],
     base_endpoint: '',
   });
-
   useEffect(() => {
-    axios.get(`${process.env.REACT_APP_API_URL}/users/datatable?limit=10&offset=0`)
+    axios.get(`${process.env.REACT_APP_API_URL}/apps/datatable?limit=10&offset=0`)
     .then(({data}) => {
       setDatatable(prev => ({
         ...prev,
@@ -41,10 +38,10 @@ const Users = () => {
 
   return (
     <>
-      <Title>Users</Title>
+      <Title>Apps</Title>
       <section>
         <Section>
-          <Card title="List Users">
+          <Card title="List Apps">
             <Datatable {...datatable} serverside={true} />
           </Card>
         </Section>
@@ -53,4 +50,4 @@ const Users = () => {
   );
 };
 
-export default Users;
+export default Apps;

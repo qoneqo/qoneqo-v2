@@ -1,3 +1,4 @@
+import React from 'react';
 import { Link } from 'react-router-dom';
 import ArticleCard from '../../../components/ArticleCard';
 import Group from '../../../components/Form/Group';
@@ -43,7 +44,7 @@ const Articles = () => {
             {(() => {
               let el = [];
               for (let index = 0; index < 9; index++) {
-                el[index] = <Link to={`/article/${index}`}><ArticleCard key={index} /></Link>;
+                el[index] = <Link key={index} to={`/article/${index}`}><ArticleCard /></Link>;
               }
               return <>{el}</>;
             })()}
