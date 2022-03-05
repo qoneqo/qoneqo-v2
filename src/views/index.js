@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import axios from 'axios';
+import Interceptors from './Interceptors';
 import Web from './web';
 import Home from './web/Home';
 import Articles from './web/Articles';
@@ -29,7 +30,7 @@ const Index = () => {
               <Route path="article/:slug" element={<Article />} />
               <Route path="login" element={<Login />} />
             </Route>
-            <Route path="/dashboard" element={<App />}>
+            <Route path="/dashboard" element={<Interceptors><App /></Interceptors>}>
               <Route index element={<Dashboard />} />
               <Route path="apps" element={<Apps />} />
               <Route path="users" element={<Users />} />

@@ -18,7 +18,7 @@ const Apps = () => {
     },
     order_col: ['id', 'action', 'name', 'logo', 'type'],
     t_format: {
-      action: (props = {}) => (<><Link className="" to={`/dashboard/apps/edit/${props.id}`}><Button type="primary">Edit</Button></Link><Button type="ternary">Delete</Button></>)
+      action: (props = {}) => (<><Link to={`/dashboard/apps/edit/${props.id}`}><Button type="primary">Edit</Button></Link><Button type="tertiary">Delete</Button></>)
     },
     t_body: [],
     base_endpoint: '',

@@ -19,7 +19,7 @@ const Users = () => {
     },
     order_col: ['id', 'action', 'identifier', 'name', 'email', 'is_active'],
     t_format: {
-      action: (props) => (<><Link to={`/dashboard/users/edit/${props.id}`}><Button type="primary">Edit</Button></Link><Button type="ternary">Delete</Button></>),
+      action: (props) => (<><Link to={`/dashboard/users/edit/${props.id}`}><Button type="primary">Edit</Button></Link><Button type="tertiary">Delete</Button></>),
       is_active: (props) => (<>{ props.is_active === 0 ? 'Inactive' : 'Active' }</>)
     },
     t_body: [],

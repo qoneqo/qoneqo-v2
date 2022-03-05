@@ -16,7 +16,7 @@ const Login = () => {
     .then(() => {
       navigate('/dashboard');
     })
-    .catch(() => {
+    .catch((error) => {
       setIsLoggedIn(false);
     })
   }, [])

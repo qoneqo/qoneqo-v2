@@ -1,14 +1,15 @@
 import React from 'react'
 
-const index = ({type, children}) => {
-  const style = {
-    primary: 'blue',
-    secondary: 'green',
-    ternary: 'red',
-  };
+const colors = {
+  primary: 'bg-blue-500',
+  secondary: 'bg-green-500',
+  tertiary: 'bg-red-500',
+};
+
+const Button = ({type, children}) => {
   return (
-    <button className={`rounded text-white py-1 px-2 m-1 bg-${style[type]}-500`}>{children}</button>
+    <button className={`rounded text-white py-1 px-2 m-1 ${colors[type]}`}>{children}</button>
   )
 }
 
-export default index
+export default Button

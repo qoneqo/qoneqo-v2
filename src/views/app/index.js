@@ -29,7 +29,7 @@ const App = () => {
       setIsLoggedIn(true);
     })
     .catch(() => {
-      navigate('/');      
+      navigate('/');
     })
   }, [])
   
