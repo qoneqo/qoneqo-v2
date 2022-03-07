@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import Title from '../../../components/Title';
 import Section from '../../../components/Section';
 import Card from '../../../components/Card';
-import Button from '../../../components/Button';
 import Datatable from '../../../components/Datatable';
-import { Link } from 'react-router-dom';
+import DefaultAction from '../../../components/Datatable/DefaultAction';
+import Context from '../../../views/Context';
 
 const Apps = () => {
+  const { context, setContext } = useContext(Context);
   const [datatable, setDatatable] = useState({
     t_head: {
       id: 'Id',
@@ -18,11 +19,12 @@ const Apps = () => {
     },
     order_col: ['id', 'action', 'name', 'logo', 'type'],
     t_format: {
-      action: (props = {}) => (<><Link to={`/dashboard/apps/edit/${props.id}`}><Button type="primary">Edit</Button></Link><Button type="tertiary">Delete</Button></>)
+      action: (props) => <DefaultAction obj={props} linkTo='apps' />,
     },
     t_body: [],
     base_endpoint: '',
   });
+
   useEffect(() => {
     axios.get(`${process.env.REACT_APP_API_URL}/apps/datatable?limit=10&offset=0`)
     .then(({data}) => {
@@ -34,18 +36,16 @@ const Apps = () => {
       }));
     })
     .catch(() => {})
-  }, [])
+  }, [context.appListSelected])
 
   return (
     <>
       <Title>Apps</Title>
-      <section>
-        <Section>
-          <Card title="List Apps">
-            <Datatable {...datatable} serverside={true} />
-          </Card>
-        </Section>
-      </section>
+      <Section>
+        <Card title="List Apps">
+          <Datatable {...datatable} serverside={true} />
+        </Card>
+      </Section>
     </>
   );
 };

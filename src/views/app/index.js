@@ -14,13 +14,13 @@ const App = () => {
   const { setContext } = useContext(Context);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [navCollapse, setNavCollapse] = useState(true);
-
+  
   const handleNavCollapse = () => {
     setNavCollapse(prev => !prev)
   }
 
   useLayoutEffect(() => {
-    axios.get(`${process.env.REACT_APP_API_URL}/users/show`)
+    const refreshUserShow = () => axios.get(`${process.env.REACT_APP_API_URL}/users/show`)
     .then(({data}) => {
       setContext(prevContext => ({
         ...prevContext,
@@ -30,8 +30,15 @@ const App = () => {
     })
     .catch(() => {
       navigate('/');
-    })
-  }, [])
+    });
+    
+    if (isLoggedIn) {
+      const interval = setInterval(refreshUserShow, 1000 * 61)
+      return () => clearInterval(interval);
+    } else {
+      refreshUserShow()
+    }
+  }, [isLoggedIn])
   
   return (
     isLoggedIn && 

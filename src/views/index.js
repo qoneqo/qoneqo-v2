@@ -13,12 +13,16 @@ import Apps from './app/Apps';
 import Users from './app/Users';
 import Modules from './app/Modules';
 import Context from './Context';
+import Roles from './app/Roles';
+import CreateApps from './app/Apps/Create';
+import EditApps from './app/Apps/Edit';
+import CreateUsers from './app/Users/Create';
+import EditUsers from './app/Users/Edit';
 
 axios.defaults.withCredentials = true
 
 const Index = () => {
   const [context, setContext] = useState(null);
-
   return (
     <>
       <BrowserRouter>
@@ -33,8 +37,13 @@ const Index = () => {
             <Route path="/dashboard" element={<Interceptors><App /></Interceptors>}>
               <Route index element={<Dashboard />} />
               <Route path="apps" element={<Apps />} />
+              <Route path="apps/create" element={<CreateApps />} />
+              <Route path="apps/edit/:id" element={<EditApps />} />
               <Route path="users" element={<Users />} />
+              <Route path="users/create" element={<CreateUsers />} />
+              <Route path="users/edit/:id" element={<EditUsers />} />
               <Route path="modules" element={<Modules />} />
+              <Route path="roles" element={<Roles />} />
             </Route>
           </Routes>
         </Context.Provider>

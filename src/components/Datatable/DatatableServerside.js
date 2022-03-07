@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
-import { AiFillCaretDown, AiFillCaretLeft, AiFillCaretRight, AiFillCaretUp } from 'react-icons/ai';
+import { useNavigate } from 'react-router-dom';
+import { AiFillCaretDown, AiFillCaretLeft, AiFillCaretRight, AiFillCaretUp, AiOutlinePlus } from 'react-icons/ai';
+import Form from '../Form';
 
 /**
  * Function to check if sortable_fields is defined or not
@@ -48,7 +50,8 @@ const checkTotalData = (total_data, tbody = []) => {
   return total_data;
 }
 
-const DatatableServerside = (props) => {  
+const DatatableServerside = (props) => {
+  const navigate = useNavigate();
   let { t_head, t_format, t_body, sortable_fields, total_data, pagination, pagination_max, pagination_max_current, per_page, base_endpoint, order_col } = props;
   per_page = !per_page ? t_body.length : per_page;
   total_data = checkTotalData(total_data, t_body);
@@ -198,6 +201,10 @@ const DatatableServerside = (props) => {
   return (
     <>
       <div className={`my-3 overflow-x-auto`}>
+        <Form.Group className="!flex-row justify-between">
+          <Form.Button className="h-min flex items-center rounded" onClick={() => navigate('create', {a: '23'})}>Add <AiOutlinePlus /></Form.Button>  
+          <Form.Input className="!text-sm w-min h-min m-1" placeholder="Search" />
+        </Form.Group>
         <table className={`w-full bg-white`}>
           <thead>
             <tr>

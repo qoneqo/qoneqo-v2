@@ -1,16 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import Title from '../../../components/Title';
 import Section from '../../../components/Section';
 import Card from '../../../components/Card';
-import Button from '../../../components/Button';
 import Datatable from '../../../components/Datatable';
-import { Link } from 'react-router-dom';
+import DefaultAction from '../../../components/Datatable/DefaultAction';
+import Context from '../../../views/Context';
 
 const Users = () => {
+  const { context, setContext } = useContext(Context);
   const [datatable, setDatatable] = useState({
     t_head: {
-      id: 'id',
+      id: 'Id',
       action: 'Action',
       identifier: 'Username',
       name: 'Name',
@@ -19,7 +20,7 @@ const Users = () => {
     },
     order_col: ['id', 'action', 'identifier', 'name', 'email', 'is_active'],
     t_format: {
-      action: (props) => (<><Link to={`/dashboard/users/edit/${props.id}`}><Button type="primary">Edit</Button></Link><Button type="tertiary">Delete</Button></>),
+      action: (props) => <DefaultAction obj={props} linkTo='users' />,
       is_active: (props) => (<>{ props.is_active === 0 ? 'Inactive' : 'Active' }</>)
     },
     t_body: [],
@@ -37,7 +38,7 @@ const Users = () => {
       }));
     })
     .catch(() => {})
-  }, [])
+  }, [context.appListSelected])
 
   return (
     <>
