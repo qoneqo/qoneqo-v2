@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import {
   AiOutlineDashboard,
@@ -11,11 +11,11 @@ import LogoImg from '../../assets/images/logo.png';
 
 const AppSidebar = ({ className, navCollapse }) => {
   let pathname = useLocation().pathname;
-  const { context, setContext } = useContext(Context);
+  const { context } = useContext(Context);
 
   return (
     <>
-      <aside className={`sidebar bg-white z-10 flex flex-col w-44`}>
+      <aside className={`sidebar bg-white z-10 flex flex-col ${navCollapse ? 'w-44' : ''}`}>
         <ul>
           <li className="border-b p-2 text-center h-12 flex items-center">
             <img className="h-full inline-block pr-2" src={LogoImg} alt="" />

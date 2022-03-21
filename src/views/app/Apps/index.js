@@ -19,11 +19,25 @@ const Apps = () => {
     },
     order_col: ['id', 'action', 'name', 'logo', 'type'],
     t_format: {
-      action: (props) => <DefaultAction obj={props} linkTo='apps' />,
+      action: (props) => <DefaultAction obj={props} linkTo='apps' onDelete={ () => handleDeleteRow(props.id) } />,
     },
     t_body: [],
     base_endpoint: '',
+    changes: 0,
   });
+
+  const handleDeleteRow = (id) => {
+    axios
+    .delete(`${process.env.REACT_APP_API_URL}/apps/${id}`)
+    .then((data) => {
+      setDatatable(prev => ({
+        ...prev,
+        t_body: prev.t_body.filter(val => val.id !== id)
+      }))
+      setContext(prev => ({...prev, appsList: prev.appsList.filter(val => val.id !== id)}))
+    })
+    .catch(() => {})
+  }
 
   useEffect(() => {
     axios.get(`${process.env.REACT_APP_API_URL}/apps/datatable?limit=10&offset=0`)
