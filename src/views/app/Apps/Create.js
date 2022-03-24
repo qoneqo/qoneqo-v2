@@ -32,9 +32,12 @@ const CreateApps = (props) => {
         axios
           .post(`${process.env.REACT_APP_API_URL}/auth/reset`)
           .then(() => {
+            QAlert({title: 'Success', message: 'Action Success!'})
             navigate('/dashboard/apps');
           })
-          .catch(() => {})
+          .catch(() => {
+            QAlert({title: 'Error', message: 'Action Error!'})
+          })
       })
       .catch(() => {})
     }
@@ -43,7 +46,6 @@ const CreateApps = (props) => {
       confirmed: {
         yes: () => {
           submit();
-          QAlert({title: 'Success', message: 'Action Success!'})
         },
         cancel: () => {
           QAlert({title: 'Canceled', message: 'Action Canceled!'})

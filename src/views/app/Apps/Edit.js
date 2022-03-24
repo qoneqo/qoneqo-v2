@@ -40,16 +40,18 @@ const EditApps = (props) => {
       axios
       .put(`${process.env.REACT_APP_API_URL}/apps/${params.id}`, state)
       .then(({data}) => {
-        navigate('/dashboard/apps');        
+        QAlert({title: 'Success', message: 'Action Success!'});
+        navigate('/dashboard/apps');
       })
-      .catch(() => {})
+      .catch(() => {
+        QAlert({title: 'Error', message: 'Action Error!'})
+      })
     }
 
     QConfirm({
       confirmed: {
         yes: () => {
           submit();
-          QAlert({title: 'Success', message: 'Action Success!'});
         },
         cancel: () => {
           QAlert({title: 'Canceled', message: 'Action Canceled!'})

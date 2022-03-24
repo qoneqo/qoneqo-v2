@@ -16,9 +16,10 @@ const Users = () => {
       identifier: 'Username',
       name: 'Name',
       email: 'Email',
+      app_name: 'App Name',
       is_active: 'Status',
     },
-    order_col: ['id', 'action', 'identifier', 'name', 'email', 'is_active'],
+    order_col: ['id', 'action', 'identifier', 'name', 'email', 'app_name', 'is_active'],
     t_format: {
       action: (props) => <DefaultAction obj={props} linkTo='users' />,
       is_active: (props) => (<>{ props.is_active === 0 ? 'Inactive' : 'Active' }</>)
