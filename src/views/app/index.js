@@ -20,11 +20,12 @@ const App = () => {
   }
 
   useLayoutEffect(() => {
-    const refreshUserShow = () => axios.get(`${process.env.REACT_APP_API_URL}/users/show`)
+    const refreshUserShow = () => axios.get(`${process.env.REACT_APP_API_URL}/users/me`)
     .then(({data}) => {
       setContext(prevContext => ({
         ...prevContext,
-        userName: data.name
+        userId: data.id,
+        userName: data.name,
       }))
       setIsLoggedIn(true);
     })

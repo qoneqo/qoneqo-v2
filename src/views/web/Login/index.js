@@ -12,7 +12,7 @@ const Login = () => {
   const navigate = useNavigate();
 
   useLayoutEffect(() => {
-    axios.get(`${process.env.REACT_APP_API_URL}/users/show`)
+    axios.get(`${process.env.REACT_APP_API_URL}/users/me`)
     .then(() => {
       navigate('/dashboard');
     })

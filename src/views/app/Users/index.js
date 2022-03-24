@@ -8,7 +8,7 @@ import DefaultAction from '../../../components/Datatable/DefaultAction';
 import Context from '../../../views/Context';
 
 const Users = () => {
-  const { context, setContext } = useContext(Context);
+  const { context } = useContext(Context);
   const [datatable, setDatatable] = useState({
     t_head: {
       id: 'Id',
@@ -21,12 +21,24 @@ const Users = () => {
     },
     order_col: ['id', 'action', 'identifier', 'name', 'email', 'app_name', 'is_active'],
     t_format: {
-      action: (props) => <DefaultAction obj={props} linkTo='users' />,
+      action: (props) => <DefaultAction obj={props} linkTo='users' onDelete={ () => handleDeleteRow(props.id) } />,
       is_active: (props) => (<>{ props.is_active === 0 ? 'Inactive' : 'Active' }</>)
     },
     t_body: [],
     base_endpoint: '',
   });
+
+  const handleDeleteRow = (id) => {
+    axios
+    .delete(`${process.env.REACT_APP_API_URL}/users/${id}`)
+    .then((data) => {
+      setDatatable(prev => ({
+        ...prev,
+        t_body: prev.t_body.filter(val => val.id !== id)
+      }))
+    })
+    .catch(() => {})
+  }
 
   useEffect(() => {
     axios.get(`${process.env.REACT_APP_API_URL}/users/datatable?limit=10&offset=0`)
