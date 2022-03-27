@@ -35,16 +35,16 @@ const AppSidebar = ({ className, navCollapse }) => {
               { navCollapse && <span className={`mx-1 text-sm text-unhover ${/^\/dashboard\/apps/.test(pathname) && 'text-hover'} group-hover:text-hover`}>Apps</span> }
             </Link>
           </li>
+          <li className="group my-2 text-xl" title="Roles">
+            <Link className={`block ${navCollapse ?  'text-left pl-4' : 'text-center'}`} to="/dashboard/roles">
+              <AiOutlineTeam className={`inline text-unhover ${/^\/dashboard\/roles/.test(pathname) && 'text-hover'} group-hover:text-hover`} />
+              { navCollapse && <span className={`mx-1 text-sm text-unhover ${/^\/dashboard\/roles/.test(pathname) && 'text-hover'} group-hover:text-hover`}>Roles</span> }
+            </Link>
+          </li>
           <li className="group my-2 text-xl" title="Users">
             <Link className={`block ${navCollapse ?  'text-left pl-4' : 'text-center'}`} to="/dashboard/users">
               <AiOutlineUser className={`inline text-unhover ${/^\/dashboard\/users/.test(pathname) && 'text-hover'} group-hover:text-hover`} />
               { navCollapse && <span className={`mx-1 text-sm text-unhover ${/^\/dashboard\/users/.test(pathname) && 'text-hover'} group-hover:text-hover`}>Users</span> }
-            </Link>
-          </li>
-          <li className="group my-2 text-xl" title="User Roles">
-            <Link className={`block ${navCollapse ?  'text-left pl-4' : 'text-center'}`} to="/dashboard/roles">
-              <AiOutlineTeam className={`inline text-unhover ${/^\/dashboard\/roles/.test(pathname) && 'text-hover'} group-hover:text-hover`} />
-              { navCollapse && <span className={`mx-1 text-sm text-unhover ${/^\/dashboard\/roles/.test(pathname) && 'text-hover'} group-hover:text-hover`}>Roles</span> }
             </Link>
           </li>
           <li className="group my-2 text-xl" title="Modules">

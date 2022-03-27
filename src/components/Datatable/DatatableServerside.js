@@ -98,7 +98,7 @@ const DatatableServerside = (props) => {
     }
       
     axios.get(`${base_endpoint}?${per_page && 'limit='+per_page}${offset && '&offset='+offset}${order}`)
-    .then(({data: {widget_data}}) => {   
+    .then(({data: {widget_data}}) => {
       setState((prev) => ({
         ...prev,
         t_body: widget_data.t_body,
@@ -238,16 +238,16 @@ const DatatableServerside = (props) => {
         
         { (pagination && per_page && t_body.length !== 0 && Math.ceil(state.total_data/per_page) > 1) && 
           <div className={`my-2 text-right`}>
-            <span onClick={() => {handleClickPagination('prev')}} className={`cursor-pointer border border-[#797979] w-6 h-6 inline-block text-center text-sm ${state.currentPage === 1 && 'cursor-not-allowed text-[#A6A6A6]'}`}><AiFillCaretLeft className={`inline-block`} /></span>
+            <span onClick={() => {handleClickPagination('prev')}} className={`cursor-pointer border w-7 h-7 inline-block text-center text-base ${state.currentPage === 1 && 'cursor-not-allowed text-[#A6A6A6]'}`}><AiFillCaretLeft className={`inline-block`} /></span>
             {
               <span key={`page-first`} 
               onClick={() => { handleClickPagination('first');  }} 
-              className={`cursor-pointer border border-[#797979] px-2 h-6 inline-block text-center text-sm ${state.currentPage === 1 && 'bg-[#3989DA] text-white'}`}
+              className={`cursor-pointer border w-7 h-7 inline-block text-center text-base ${state.currentPage === 1 && 'bg-[#3989DA] text-white'}`}
               >1</span>
             }
             { (state.currentPage > pagination_max) &&
               <span key={`page-prev-...`} 
-              className={`cursor-pointer border border-[#797979] w-6 h-6 inline-block text-center text-sm`}
+              className={`cursor-pointer border w-7 h-7 inline-block text-center text-base`}
               onClick={() => { handleClickPagination('prev...') }}
               >...</span>
             }
@@ -256,23 +256,23 @@ const DatatableServerside = (props) => {
                 (val > 1 && val < Math.ceil(state.total_data/per_page)) &&
                 <span key={`page-${val}`} 
                 onClick={() => {handleClickPagination(val)}} 
-                className={`cursor-pointer border border-[#797979] w-6 h-6 inline-block text-center text-sm ${state.currentPage === val && 'bg-[#3989DA] text-white'}`}
+                className={`cursor-pointer border w-7 h-7 inline-block text-center text-base ${state.currentPage === val && 'bg-[#3989DA] text-white'}`}
                 >{val}</span>
               ))              
             }
             { (state.pagination_max_current <= Math.ceil(state.total_data/per_page) - pagination_max  && Math.ceil(state.total_data/per_page) > pagination_max) &&
               <span key={`page-next-...`} 
-              className={`cursor-pointer border border-[#797979] w-6 h-6 inline-block text-center text-sm`}
+              className={`cursor-pointer border w-7 h-7 inline-block text-center text-base`}
               onClick={() => { handleClickPagination('next...') }}
               >...</span>
             }
             {
               <span key={`page-last`} 
               onClick={() => { handleClickPagination('last');  }} 
-              className={`cursor-pointer border border-[#797979] px-2 h-6 inline-block text-center text-sm ${state.currentPage === Math.ceil(state.total_data/per_page) && 'bg-[#3989DA] text-white'}`}
+              className={`cursor-pointer border w-7 h-7 inline-block text-center text-base ${state.currentPage === Math.ceil(state.total_data/per_page) && 'bg-[#3989DA] text-white'}`}
               >{Math.ceil(state.total_data/per_page)}</span>
             }
-            <span onClick={() => {handleClickPagination('next')}} className={`cursor-pointer border border-[#797979] w-6 h-6 inline-block text-center text-sm ${state.currentPage === Math.ceil(state.total_data/per_page) && 'cursor-not-allowed text-[#A6A6A6]'}`}><AiFillCaretRight className={`inline-block`} /></span>
+            <span onClick={() => {handleClickPagination('next')}} className={`cursor-pointer border w-7 h-7 inline-block text-center text-base ${state.currentPage === Math.ceil(state.total_data/per_page) && 'cursor-not-allowed text-[#A6A6A6]'}`}><AiFillCaretRight className={`inline-block`} /></span>
           </div>
         }
 

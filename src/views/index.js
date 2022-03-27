@@ -14,6 +14,8 @@ import Users from './app/Users';
 import Modules from './app/Modules';
 import Context from './Context';
 import Roles from './app/Roles';
+import CreateRoles from './app/Roles/Create';
+import EditRoles from './app/Roles/Edit';
 import CreateApps from './app/Apps/Create';
 import EditApps from './app/Apps/Edit';
 import CreateUsers from './app/Users/Create';
@@ -44,6 +46,8 @@ const Index = () => {
               <Route path="users/edit/:id" element={<EditUsers />} />
               <Route path="modules" element={<Modules />} />
               <Route path="roles" element={<Roles />} />
+              <Route path="roles/create" element={<CreateRoles />} />
+              <Route path="roles/edit/:id" element={<EditRoles />} />
             </Route>
           </Routes>
         </Context.Provider>
