@@ -9,17 +9,21 @@ import Article from './web/Article';
 import Login from './web/Login';
 import App from './app';
 import Dashboard from './app/Dashboard';
-import Apps from './app/Apps';
-import Users from './app/Users';
-import Modules from './app/Modules';
 import Context from './Context';
 import Roles from './app/Roles';
 import CreateRoles from './app/Roles/Create';
 import EditRoles from './app/Roles/Edit';
+import Apps from './app/Apps';
 import CreateApps from './app/Apps/Create';
 import EditApps from './app/Apps/Edit';
+import Users from './app/Users';
 import CreateUsers from './app/Users/Create';
 import EditUsers from './app/Users/Edit';
+import Modules from './app/Modules';
+import CreateModules from './app/Modules/Create';
+import EditModules from './app/Modules/Edit';
+
+import 'react-select-2/dist/css/react-select-2.css';
 
 axios.defaults.withCredentials = true
 
@@ -45,6 +49,8 @@ const Index = () => {
               <Route path="users/create" element={<CreateUsers />} />
               <Route path="users/edit/:id" element={<EditUsers />} />
               <Route path="modules" element={<Modules />} />
+              <Route path="modules/create" element={<CreateModules />} />
+              <Route path="modules/edit/:id" element={<EditModules />} />
               <Route path="roles" element={<Roles />} />
               <Route path="roles/create" element={<CreateRoles />} />
               <Route path="roles/edit/:id" element={<EditRoles />} />

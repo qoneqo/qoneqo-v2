@@ -201,10 +201,13 @@ const DatatableServerside = (props) => {
   return (
     <>
       <div className={`my-3 overflow-x-auto`}>
-        <Form.Group className="!flex-row justify-between">
-          <Form.Button className="h-min flex items-center rounded" onClick={() => navigate('create', {a: '23'})}>Add <AiOutlinePlus /></Form.Button>  
-          <Form.Input className="!text-sm w-min h-min m-1" placeholder="Search" />
-        </Form.Group>
+        {
+          props.add_btn &&
+          <Form.Group className="!flex-row justify-between">
+            <Form.Button className="h-min flex items-center rounded" onClick={() => navigate('create', {a: '23'})}>Add <AiOutlinePlus /></Form.Button>  
+            <Form.Input className="!text-sm w-min h-min m-1" placeholder="Search" />
+          </Form.Group>
+        }
         <table className={`w-full bg-white`}>
           <thead>
             <tr>
@@ -294,6 +297,7 @@ DatatableServerside.defaultProps = {
   per_page_list: [10,15,25,50],
   base_endpoint: '',
   order_col: [],
+  add_btn: true,
 };
 
 export default DatatableServerside;

@@ -5,6 +5,7 @@ import {
   AiOutlineUser,
   AiOutlineTeam,
   AiOutlineAppstore,
+  AiOutlineProject,
 } from 'react-icons/ai';
 import Context from '../../views/Context';
 import LogoImg from '../../assets/images/logo.png';
@@ -31,8 +32,14 @@ const AppSidebar = ({ className, navCollapse }) => {
           { navCollapse && <li className="px-4 mt-4 text-xs text-unhover"> Core Modules </li> }
           <li className="group my-2 text-xl" title="Apps">
             <Link className={`block ${navCollapse ?  'text-left pl-4' : 'text-center'}`} to="/dashboard/apps">
-              <AiOutlineAppstore className={`inline text-unhover ${/^\/dashboard\/apps/.test(pathname) && 'text-hover'} group-hover:text-hover`} />
+              <AiOutlineProject className={`inline text-unhover ${/^\/dashboard\/apps/.test(pathname) && 'text-hover'} group-hover:text-hover`} />
               { navCollapse && <span className={`mx-1 text-sm text-unhover ${/^\/dashboard\/apps/.test(pathname) && 'text-hover'} group-hover:text-hover`}>Apps</span> }
+            </Link>
+          </li>
+          <li className="group my-2 text-xl" title="Modules">
+            <Link className={`block ${navCollapse ?  'text-left pl-4' : 'text-center'}`} to="/dashboard/modules">
+              <AiOutlineAppstore className={`inline text-unhover ${/^\/dashboard\/modules/.test(pathname) && 'text-hover'} group-hover:text-hover`} />
+              { navCollapse && <span className={`mx-1 text-sm text-unhover ${/^\/dashboard\/modules/.test(pathname) && 'text-hover'} group-hover:text-hover`}>Modules</span> }
             </Link>
           </li>
           <li className="group my-2 text-xl" title="Roles">
@@ -45,12 +52,6 @@ const AppSidebar = ({ className, navCollapse }) => {
             <Link className={`block ${navCollapse ?  'text-left pl-4' : 'text-center'}`} to="/dashboard/users">
               <AiOutlineUser className={`inline text-unhover ${/^\/dashboard\/users/.test(pathname) && 'text-hover'} group-hover:text-hover`} />
               { navCollapse && <span className={`mx-1 text-sm text-unhover ${/^\/dashboard\/users/.test(pathname) && 'text-hover'} group-hover:text-hover`}>Users</span> }
-            </Link>
-          </li>
-          <li className="group my-2 text-xl" title="Modules">
-            <Link className={`block ${navCollapse ?  'text-left pl-4' : 'text-center'}`} to="/dashboard/modules">
-              <AiOutlineAppstore className={`inline text-unhover ${/^\/dashboard\/modules/.test(pathname) && 'text-hover'} group-hover:text-hover`} />
-              { navCollapse && <span className={`mx-1 text-sm text-unhover ${/^\/dashboard\/modules/.test(pathname) && 'text-hover'} group-hover:text-hover`}>Modules</span> }
             </Link>
           </li>
         </ul>

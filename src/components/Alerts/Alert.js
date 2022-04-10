@@ -4,7 +4,7 @@ const Alert = (props) => {
   const { title, message, timeOut } = props || {
     title: 'Success',
     message: 'Action Success',
-    timeOut: 3000,
+    timeOut: 2000,
   };
 
   const [state, setState] = useState({
@@ -36,7 +36,7 @@ const Alert = (props) => {
 Alert.defaultProps = {
   title: 'Success',
   message: 'Action Success',
-  timeOut: 3000,
+  timeOut: 2000,
 };
 
 export default Alert

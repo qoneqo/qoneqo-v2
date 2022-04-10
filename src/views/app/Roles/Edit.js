@@ -109,7 +109,7 @@ const EditRoles = (props) => {
               </Form.Group>
             </div>
             <div className="flex justify-end">
-              <Form.Button type="submit">Create</Form.Button>
+              <Form.Button type="submit">Update</Form.Button>
             </div>
           </Form>
         </Card>

@@ -21,17 +21,23 @@ const DefaultAction = ({obj, linkTo, onDelete}) => {
 
   return (
     <>
-      <Link to={`/dashboard/${linkTo}/edit/${obj.id}`}>
-        <Form.Button className="bg-secondary rounded mr-1">
-          Edit <AiOutlineEdit className="inline-block" />{' '}
+      {
+        linkTo && 
+        <Link to={`/dashboard/${linkTo}/edit/${obj.id}`}>
+          <Form.Button className="bg-secondary rounded mr-1">
+            Edit <AiOutlineEdit className="inline-block" />{' '}
+          </Form.Button>
+        </Link>
+      }
+      {
+        onDelete &&
+        <Form.Button 
+          className="!bg-red-500 rounded qoneqo-alert" 
+          onClick={handleDelete} 
+        >
+          Delete <AiOutlineDelete className="inline-block qoneqo-alert" />
         </Form.Button>
-      </Link>
-      <Form.Button 
-        className="!bg-red-500 rounded qoneqo-alert" 
-        onClick={handleDelete} 
-      >
-        Delete <AiOutlineDelete className="inline-block qoneqo-alert" />
-      </Form.Button>
+      }
     </>
   )
 };

@@ -8,6 +8,7 @@ import Title from '../../../components/Title';
 import Form from '../../../components/Form';
 import { QConfirm, QAlert } from '../../../components/Alerts';
 import BackNavigate from '../../../components/BackNavigate';
+import UserRole from './UserRole';
 
 const EditUsers = (props) => {
   const { context, setContext } = useContext(Context);
@@ -145,27 +146,16 @@ const EditUsers = (props) => {
                   <option value="0">Inactive</option>
                 </Form.Select>
               </Form.Group>
-              <Form.Group>
-                <Form.Label htmlFor="app_id">Default App</Form.Label>
-                <Form.Select
-                  value={state.app_id}
-                  onChange={(e) =>
-                    setState((prev) => ({ ...prev, app_id: e.target.value }))
-                  }
-                >
-                  {
-                    context.appsList?.map((value, index) => (
-                      <option key={`default-app-${index}`} value={value.id} >{value.name}</option>
-                    ))
-                  }
-                </Form.Select>
-              </Form.Group>
             </div>
             <div className="flex justify-end">
-              <Form.Button type="submit">Create</Form.Button>
+              <Form.Button type="submit">Update</Form.Button>
             </div>
           </Form>
         </Card>
+      </Section>
+
+      <Section className="grid grid-cols-1 gap-4">
+        <UserRole params={params} />
       </Section>
     </>
   )
