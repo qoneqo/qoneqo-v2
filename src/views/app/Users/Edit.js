@@ -57,15 +57,15 @@ const EditUsers = (props) => {
               userId: data.id,
               userName: data.name,
             }))
-            QAlert({title: 'Success', message: 'Action Success!'})
+            QAlert({title: 'Success', message: data.message, messageType: data.messageType})
             navigate('/dashboard/users');
           })
           .catch(() => {
             QAlert({title: 'Error', message: 'Action Error!'})
           });
       })
-      .catch(() => {
-        QAlert({title: 'Error', message: 'Action Error!'})
+      .catch(({response: {data}}) => {
+        QAlert({title: 'Error', message: data.message, messageType: data.messageType})
       })
     }
 

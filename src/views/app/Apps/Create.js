@@ -32,14 +32,16 @@ const CreateApps = (props) => {
         axios
           .post(`${process.env.REACT_APP_API_URL}/auth/reset`)
           .then(() => {
-            QAlert({title: 'Success', message: 'Action Success!'})
+            QAlert({title: 'Success', message: data.message, messageType: data.messageType})
             navigate('/dashboard/apps');
           })
-          .catch(() => {
-            QAlert({title: 'Error', message: 'Action Error!'})
+          .catch(({response: {data}}) => {
+            QAlert({title: 'Error', message: 'Fail to add apps you don\'t have right access', messageType: 'error'})
           })
       })
-      .catch(() => {})
+      .catch(({response: {data}}) => {
+        QAlert({title: 'Error', message: data.message, messageType: data.messageType})
+      })
     }
 
     QConfirm({

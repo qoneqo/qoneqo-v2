@@ -59,11 +59,11 @@ const EditModules = (props) => {
       axios
       .put(`${process.env.REACT_APP_API_URL}/modules/${params.id}`, state)
       .then(({data}) => {
-        QAlert({title: 'Success', message: 'Action Success!'})
+        QAlert({title: 'Success', message: data.message, messageType: data.messageType})
         navigate('/dashboard/modules');
       })
-      .catch(() => {
-        QAlert({title: 'Error', message: 'Action Error!'})
+      .catch(({response: {data}}) => {
+        QAlert({title: 'Error', message: data.message, messageType: data.messageType})
       })
     }
 

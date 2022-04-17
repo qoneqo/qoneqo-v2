@@ -39,7 +39,9 @@ const Confirm = (props) => {
           onClick={(e) => {
             e.preventDefault();
             confirmed?.yes()
-          }}>
+          }}
+          autoFocus={true}
+        >
           Yes
         </Button>
       </div>

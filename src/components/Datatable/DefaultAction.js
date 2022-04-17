@@ -9,7 +9,7 @@ const DefaultAction = ({obj, linkTo, onDelete}) => {
     QConfirm({
       confirmed: {
         yes: () => {
-          QAlert({title: 'Success', message: 'Action Success!'});
+          QAlert({title: 'Success', message: 'Delete Success!'});
           onDelete();
         },
         cancel: () => {
