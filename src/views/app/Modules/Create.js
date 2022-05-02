@@ -16,8 +16,8 @@ const CreateModules = (props) => {
   const [state, setState] = useState({
     name: '',
     path: '',
-    method: '',
-    parent_id: '',
+    method: 'GET',
+    parent_id: null,
     app_id: '',
   })
   const [moduleList, setModuleList] = useState([]);

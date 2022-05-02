@@ -8,7 +8,6 @@ import Title from '../../../components/Title';
 import Form from '../../../components/Form';
 import { QConfirm, QAlert } from '../../../components/Alerts';
 import BackNavigate from '../../../components/BackNavigate';
-import UserRole from './UserRole';
 
 const EditUsers = (props) => {
   const { context, setContext } = useContext(Context);
@@ -152,10 +151,6 @@ const EditUsers = (props) => {
             </div>
           </Form>
         </Card>
-      </Section>
-
-      <Section className="grid grid-cols-1 gap-4">
-        <UserRole params={params} />
       </Section>
     </>
   )

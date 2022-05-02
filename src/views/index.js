@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import 'react-select-2/dist/css/react-select-2.css';
 import axios from 'axios';
 import Interceptors from './Interceptors';
 import Web from './web';
@@ -23,7 +24,9 @@ import Modules from './app/Modules';
 import CreateModules from './app/Modules/Create';
 import EditModules from './app/Modules/Edit';
 
-import 'react-select-2/dist/css/react-select-2.css';
+import UserRole from './app/UserRole';
+import EditUserRole from './app/UserRole/UserRole';
+import RoleModule from './app/RoleModule';
 
 axios.defaults.withCredentials = true
 
@@ -54,6 +57,9 @@ const Index = () => {
               <Route path="roles" element={<Roles />} />
               <Route path="roles/create" element={<CreateRoles />} />
               <Route path="roles/edit/:id" element={<EditRoles />} />
+              <Route path="user-role" element={<UserRole />} />
+              <Route path="user-role/edit/:id" element={<EditUserRole />} />
+              <Route path="role-module" element={<RoleModule />} />
             </Route>
           </Routes>
         </Context.Provider>
